@@ -1,0 +1,33 @@
+# Change default linker
+# Check the following issue to know when to remove this: https://github.com/rust-lang/rust/issues/39915#issuecomment-618726211
+# Potential good alternative: https://github.com/rui314/mold
+
+# Windows
+# 
+# Make sure to run;
+# cargo install -f cargo-binutils
+# rustup component add llvm-tools-preview
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+[target.x86_64-pc-windows-gnu]
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+# Linux
+# 
+# Make sure to install lld and clang.
+#
+# Ubuntu: sudo apt-get install lld clang
+# Arch: sudo pacman -S lld clang
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "linker=clang", "-C", "link-arg=-fuse-ld=lld"]
+
+# MacOS
+#
+# Make sure to run;
+# brew install michaeleisel/zld/zld
+[target.x86_64-apple-darwin]
+rustflags = ["-C", "link-arg=--ld-path=zld"]
+
+[target.aarch64-apple-darwin]
+rustflags = ["-C", "link-arg=--ld-path=zld"]
