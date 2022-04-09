@@ -1,6 +1,11 @@
-use actix_web::{get, web, App, HttpServer, Responder};
+use actix_web::{get, web, App, HttpServer, Responder, HttpResponse};
 
-#[get("/{name}")]
+#[get("/health_check")]
+async fn health_check() -> impl Responder {
+    HttpResponse::Ok()
+}
+
+#[get("/greet/{name}")]
 async fn greet(name: web::Path<String>) -> impl Responder {
     format!("Hello {name}!")
 }
@@ -9,7 +14,8 @@ async fn greet(name: web::Path<String>) -> impl Responder {
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .route("/", web::get().to(|| async {"Hello World!"}))
+            .route("/hello_world", web::get().to(|| async {"Hello World!"}))
+            .service(health_check)
             .service(greet)
     })
     .bind(("127.0.0.1", 8080))?
