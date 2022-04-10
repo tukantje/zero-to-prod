@@ -8,7 +8,7 @@ async fn test_health_check() {
         .send()
         .await
         .expect("Failed to execute request.");
-    
+
     assert!(response.status().is_success());
     assert_eq!(Some(0), response.content_length());
 }
