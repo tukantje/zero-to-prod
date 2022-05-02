@@ -123,7 +123,11 @@ jobs:
       - name: Migrate database
         run: |
           sudo apt-get install libpq-dev -y
+          cargo install --version=${{ env.SQLX_VERSION }} sqlx-cli --no-default-features --features ${{ env.SQLX_VERSION }}
           SKIP_DOCKER=true ./scripts/init_db.sh
+      - name: Check sqlx-data.json is up-to-date
+        run: |
+          cargo sqlx prepare --check -- --bin zero_to_prod
       - name: Run clippy
         uses: actions-rs/clippy-check@v1
         with:
@@ -178,4 +182,4 @@ jobs:
       - name: Run cargo-tarpaulin
         uses: actions-rs/tarpaulin@v0.1
         with:
-          args: '--ignore-tests --avoid-cfg-tarpaulin'
+          args: "--ignore-tests --avoid-cfg-tarpaulin"
