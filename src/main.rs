@@ -15,7 +15,12 @@ async fn main() -> std::io::Result<()> {
         .connect_timeout(std::time::Duration::from_secs(2))
         .connect_with(configuration.database.with_db())
         .await
-        .unwrap_or_else(|_| panic!("Failed to create postgres pool."));
+        .unwrap_or_else(|_| {
+            panic!(
+                "Failed to create postgres pool with config {:#?}.",
+                configuration.database.with_db()
+            )
+        });
 
     let address = format!(
         "{}:{}",
