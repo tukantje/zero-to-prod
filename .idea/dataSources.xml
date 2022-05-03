@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/newsletter</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="newsletter@app-5304eb4e-5a7b-4a09-8cb3-b37f86cd6fa4-do-user-869558-0.b.db.ondigitalocean.com" uuid="ee3a9af4-9509-4c1e-bc14-8864ad44bda2">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://app-5304eb4e-5a7b-4a09-8cb3-b37f86cd6fa4-do-user-869558-0.b.db.ondigitalocean.com:25060/newsletter</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
