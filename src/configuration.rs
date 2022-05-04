@@ -6,20 +6,20 @@ use sqlx::{
     ConnectOptions,
 };
 
-#[derive(serde::Deserialize)]
+#[derive(Debug, serde::Deserialize)]
 pub struct Settings {
     pub database: DatabaseSettings,
     pub application: ApplicationSettings,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Debug, serde::Deserialize)]
 pub struct ApplicationSettings {
     #[serde(deserialize_with = "deserialize_number_from_string")]
     pub port: u16,
     pub host: String,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Debug, serde::Deserialize)]
 pub struct DatabaseSettings {
     pub username: String,
     pub password: Secret<String>,
@@ -66,9 +66,16 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         .add_source(config::File::from(
             configuration_directory.join(environment.as_str()),
         ))
-        .add_source(config::Environment::with_prefix("app").separator("__"));
+        .add_source(
+            config::Environment::with_prefix("app")
+                .prefix_separator("_")
+                .separator("__"),
+        );
 
-    builder.build()?.try_deserialize()
+    let result = builder.build()?.try_deserialize();
+    tracing::log::info!("[GET CONFIGURATION] {:#?}", result);
+
+    result
 }
 
 pub enum Environment {
