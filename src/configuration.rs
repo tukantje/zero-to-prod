@@ -69,7 +69,7 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         .add_source(config::Environment::with_prefix("app").separator("__"));
 
     let result = builder.build()?.try_deserialize();
-    format!("{:#?}", result);
+    tracing::log::info!("[GET CONFIGURATION] {:#?}", result);
 
     result
 }

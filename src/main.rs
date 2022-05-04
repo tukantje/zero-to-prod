@@ -25,7 +25,5 @@ async fn main() -> std::io::Result<()> {
             configuration.application.host, configuration.application.port
         )
     });
-    run(listener, connection_pool)
-        .unwrap_or_else(|_| panic!("Panic! {:#?}", configuration.database.with_db()))
-        .await
+    run(listener, connection_pool)?.await
 }
